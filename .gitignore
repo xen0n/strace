@@ -21,6 +21,7 @@
 /config.log
 /config.status
 /configure
+/coverage
 /cscope.*
 /mpers-m32
 /mpers-mx32

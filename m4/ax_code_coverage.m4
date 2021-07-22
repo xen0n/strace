@@ -143,9 +143,11 @@ AC_DEFUN([AX_CODE_COVERAGE],[
 	$(A''M_V_at)$(MAKE) $(AM_MAKEFLAGS) code-coverage-capture
 ']
 		[CODE_COVERAGE_RULES_CAPTURE='
+	$(code_coverage_v_lcov_cap)$(MKDIR_P) $(dir $(CODE_COVERAGE_OUTPUT_FILE))
 	$(code_coverage_v_lcov_cap)$(LCOV) $(code_coverage_quiet) $(addprefix --directory ,$(CODE_COVERAGE_DIRECTORY)) --capture --output-file "$(CODE_COVERAGE_OUTPUT_FILE).tmp" --test-name "$(call code_coverage_sanitize,$(PACKAGE_NAME)-$(PACKAGE_VERSION))" --no-checksum --compat-libtool $(CODE_COVERAGE_LCOV_SHOPTS) $(CODE_COVERAGE_LCOV_OPTIONS)
 	$(code_coverage_v_lcov_ign)$(LCOV) $(code_coverage_quiet) $(addprefix --directory ,$(CODE_COVERAGE_DIRECTORY)) --remove "$(CODE_COVERAGE_OUTPUT_FILE).tmp" "/tmp/*" $(CODE_COVERAGE_IGNORE_PATTERN) --output-file "$(CODE_COVERAGE_OUTPUT_FILE)" $(CODE_COVERAGE_LCOV_SHOPTS) $(CODE_COVERAGE_LCOV_RMOPTS)
 	-@rm -f $(CODE_COVERAGE_OUTPUT_FILE).tmp
+	$(code_coverage_v_genhtml)$(MKDIR_P) $(dir $(CODE_COVERAGE_OUTPUT_DIRECTORY))
 	$(code_coverage_v_genhtml)LANG=C $(GENHTML) $(code_coverage_quiet) $(addprefix --prefix ,$(CODE_COVERAGE_DIRECTORY)) --output-directory "$(CODE_COVERAGE_OUTPUT_DIRECTORY)" --title "$(PACKAGE_NAME)-$(PACKAGE_VERSION) Code Coverage" --legend --show-details "$(CODE_COVERAGE_OUTPUT_FILE)" $(CODE_COVERAGE_GENHTML_OPTIONS)
 	@echo "file://$(abs_builddir)/$(CODE_COVERAGE_OUTPUT_DIRECTORY)/index.html"
 ']
@@ -173,11 +175,9 @@ code-coverage-clean:
 #    Multiple directories may be specified, separated by whitespace.
 #    (Default: $(top_builddir))
 #  - CODE_COVERAGE_OUTPUT_FILE: Filename and path for the .info file generated
-#    by lcov for code coverage. (Default:
-#    $(PACKAGE_NAME)-$(PACKAGE_VERSION)-coverage.info)
+#    by lcov for code coverage. (Default: coverage/coverage-info)
 #  - CODE_COVERAGE_OUTPUT_DIRECTORY: Directory for generated code coverage
-#    reports to be created. (Default:
-#    $(PACKAGE_NAME)-$(PACKAGE_VERSION)-coverage)
+#    reports to be created. (Default: coverage/coverage-report)
 #  - CODE_COVERAGE_BRANCH_COVERAGE: Set to 1 to enforce branch coverage,
 #    set to 0 to disable it and leave empty to stay with the default.
 #    (Default: empty)
@@ -206,8 +206,8 @@ code-coverage-clean:
 
 # Optional variables
 CODE_COVERAGE_DIRECTORY ?= $(top_builddir)
-CODE_COVERAGE_OUTPUT_FILE ?= $(PACKAGE_NAME)-$(PACKAGE_VERSION)-coverage.info
-CODE_COVERAGE_OUTPUT_DIRECTORY ?= $(PACKAGE_NAME)-$(PACKAGE_VERSION)-coverage
+CODE_COVERAGE_OUTPUT_FILE ?= coverage/coverage-info
+CODE_COVERAGE_OUTPUT_DIRECTORY ?= coverage/coverage-report
 CODE_COVERAGE_BRANCH_COVERAGE ?=
 CODE_COVERAGE_LCOV_SHOPTS_DEFAULT ?= $(if $(CODE_COVERAGE_BRANCH_COVERAGE),\
 --rc lcov_branch_coverage=$(CODE_COVERAGE_BRANCH_COVERAGE))
