@@ -91,18 +91,15 @@ case "${CHECK-}" in
 	coverage)
 		make -k $j all VERBOSE=${VERBOSE-} CFLAGS='-g -Og'
 		make -k $j2 check VERBOSE=${VERBOSE-}
-		echo 'BEGIN OF TEST SUITE INFORMATION'
-		tail -n 99999 -- tests*/test-suite.log tests*/ksysent.gen.log
-		echo 'END OF TEST SUITE INFORMATION'
 		case "$CC" in
 			gcc*) GCOV="gcov${CC#gcc}" ;;
 			clang*) GCOV="llvm-cov${CC#clang} gcov" ;;
-			*) GCOV=gcov ;;
+			*) GCOV='' ;;
 		esac
-		cd src
-		../codecov.bash -Z -x "$GCOV" -a -abc
-		rm ../codecov.bash
-		cd -
+		make code-coverage-capture ${GCOV:+GCOV=}${GCOV:-$GCOV}
+		echo 'BEGIN OF TEST SUITE INFORMATION'
+		tail -n 99999 -- tests*/test-suite.log tests*/ksysent.gen.log
+		echo 'END OF TEST SUITE INFORMATION'
 		;;
 	valgrind)
 		make -k $j all VERBOSE=${VERBOSE-}

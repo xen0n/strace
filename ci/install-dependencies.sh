@@ -143,8 +143,7 @@ esac
 
 case "${CHECK-}" in
 	coverage)
-		curl -s -S https://codecov.io/bash > codecov.bash
-		chmod u+x codecov.bash
+		apt_get_install lcov
 		;;
 	valgrind)
 		apt_get_install valgrind
