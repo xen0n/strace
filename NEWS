@@ -55,6 +55,7 @@ Noteworthy changes in release 5.14 (2021-09-02)
   * Updated lists of BPF_*, IORING_*, MADV_*, MOUNT_ATTR_*, SCTP_*,
     and UFFD_* constants.
   * Updated lists of ioctl commands from Linux 5.14.
+  * Added 64-bit LoongArch architecture support.
 
 * Bug fixes
   * Fixed build using bionic libc.
