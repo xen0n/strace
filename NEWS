@@ -2,6 +2,7 @@ Noteworthy changes in release ?.?? (????-??-??)
 ===============================================
 
 * Improvements
+  * Added 64-bit LoongArch architecture support.
   * Updated lists of ioctl commands from Linux 5.16.
 
 * Bug fixes

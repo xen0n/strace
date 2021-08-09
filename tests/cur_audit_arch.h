@@ -68,6 +68,9 @@
 # elif defined __hppa__
 #  define CUR_AUDIT_ARCH AUDIT_ARCH_PARISC
 
+# elif defined __loongarch64
+#  define CUR_AUDIT_ARCH AUDIT_ARCH_LOONGARCH64
+
 # elif defined __m68k__
 #  define CUR_AUDIT_ARCH AUDIT_ARCH_M68K
 
